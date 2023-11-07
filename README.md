@@ -1,4 +1,7 @@
 # BengaliTableQA
+**Dataset**
+The partial dataset can be found under the `data/subset_arr.zip`. 
+
 **Bengali SQL query creation**
 ```
 python data_generation/extract_wikitables.py --table_language bn --data_save_path "data/bengali_tables.jsonl" --max_table_cells 500
