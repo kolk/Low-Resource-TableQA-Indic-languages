@@ -1,7 +1,7 @@
 # LowResourceTableQA
 **Dataset**
   - The BanglaTabQA dataset can be downloaded from `https://surfdrive.surf.nl/files/index.php/s/slYoi2DZK5ehu0u` 
-  - The HindiTabQA dataset can be downloaded from ``
+  - The HindiTabQA dataset can be downloaded from `https://surfdrive.surf.nl/files/index.php/s/t49Q7q7pwC35lFj`
 
 **Bengali SQL query creation**
 ```
