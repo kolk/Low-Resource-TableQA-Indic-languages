@@ -1,11 +1,12 @@
-# BengaliTableQA
+# LowResourceTableQA
 **Dataset**
-The partial dataset can be found under the `data/subset_arr.zip`. 
+  - The BanglaTabQA dataset can be downloaded from `https://surfdrive.surf.nl/files/index.php/s/slYoi2DZK5ehu0u` 
+  - The HindiTabQA dataset can be downloaded from ``
 
 **Bengali SQL query creation**
 ```
-python data_generation/extract_wikitables.py --table_language bn --data_save_path "data/bengali_tables.jsonl" --max_table_cells 500
-python data_generation/create_sql_samples.py --table_language bn --data_save_path "data/bengali_tables.jsonl" --max_table_cells 500
+python data_generation/extract_wikitables.py --table_language "bn" --data_save_path "data/bengali_tables.jsonl" --max_table_cells 500
+python data_generation/create_sql_samples.py --table_language "bn" --data_save_path "data/bengali_tables.jsonl" --max_table_cells 500
 python data_generation/process_code_mixed_sql.py --input_file "data/bengali_sql/non_numeric_code_mixed.jsonl"  \
                                                  --output_file "data/bengali_sql/non_numeric_full_indic.jsonl" \
                                                  --table_language "bn" --sql_language "bengali"
@@ -23,23 +24,32 @@ python train_sql2nq.py --pretrained_model_name "facebook/mbart-large-50" \
                 --save_total_limit 1  
 ```
 
-**Training Process: Bengali Table QA**
+**Training Process: Low-Resource Table QA**
 
 Arguments for Bengali TableQA training:
 ```
 
-python tableqa/train.py --pretrained_language_model "facebook/m2m100_1.2B" --learning_rate 1e-4 \
+python tableqa/train.py --pretrained_language_model "facebook/mbart-large-50" --learning_rate 1e-4 \
                 --train_batch_size 2 --eval_batch_size 2 --gradient_accumulation_steps 64 --num_train_epochs 8 \
-                --use_multiprocessing False --num_workers 2 --decoder_max_length 1024 --local_rank -1 \
-                 --seed 42 --decoder_max_length 1024 \
-                --output_dir "experiments/bengalitabqa_m2m1.2B_lr1e4" 
+                --use_multiprocessing False --num_workers 2 --decoder_max_length 1024 \
+                 --seed 42 --decoder_max_length 1024 --language "bn" \
+                --output_dir "experiments/banglaTabQA_mbart" 
 
+```
+
+Arguments for Hindi TableQA training:
+```
+python tableqa/train.py --pretrained_language_model "facebook/mbart-large-50" --learning_rate 1e-4 \
+                --train_batch_size 2 --eval_batch_size 2 --gradient_accumulation_steps 64 --num_train_epochs 8 \
+                --use_multiprocessing False --num_workers 2 --decoder_max_length 1024  \
+                 --seed 42 --decoder_max_length 1024 --language "hi" \
+                --output_dir "experiments/hindiTabQA_mbart" 
 ```
 
 Arguments for Bengali Table QA evaluation:
 ```
-python tableqa/evaluate_tableqa.py --pretrained_model_name "experiments/bengalitabqa_m2m1.2B_lr1e4/latest-checkpoint" \
+python tableqa/evaluate_tableqa.py --pretrained_model_name "experiments/banglaTabQA_mbart/latest-checkpoint" \
                 --batch_size 2 --generation_max_length 1024 \
-                --validation_dataset_path "data/m2m_tokenized/m2m_validation.hf" \
-                --predictions_save_path "experiments/predictions/" 
+                --validation_dataset_path "data/mbart-50_tokenized/mbart-50_validation.hf" \
+                --predictions_save_path "experiments/predictions/mbart-50_validation.jsonl" 
 ```
