@@ -1,7 +1,16 @@
 # LowResourceTableQA
-**Dataset**
-  - The BanglaTabQA dataset can be downloaded from `https://surfdrive.surf.nl/files/index.php/s/slYoi2DZK5ehu0u` 
-  - The HindiTabQA dataset can be downloaded from `https://surfdrive.surf.nl/files/index.php/s/t49Q7q7pwC35lFj`
+**Datasets**
+  - Download [BanglaTabQA dataset](https://surfdrive.surf.nl/files/index.php/s/slYoi2DZK5ehu0u) 
+  - Download [HindiTabQA dataset](https://surfdrive.surf.nl/files/index.php/s/t49Q7q7pwC35lFj)
+
+**Model Checkpoints**
+  - **BanglaTabQA Models**
+     -  Download [`BnTQA-mBart`](https://surfdrive.surf.nl/files/index.php/s/bACCKjSyT6y8qyO) 
+     -  Download [`BnTQA-M2M`](https://surfdrive.surf.nl/files/index.php/s/YUDhbLrtc7KiMwy) 
+     -  Download [`BnTQA-llama`](https://surfdrive.surf.nl/files/index.php/s/YUDhbLrtc7KiMwy) 
+ - **HindiTabQA Models**  
+    - Download [`HiTQA-mBart`](https://surfdrive.surf.nl/files/index.php/s/9dSEVpZVcdcW5qQ)
+   - Download [`HiTQA-BnTQA`](https://surfdrive.surf.nl/files/index.php/s/9dSEVpZVcdcW5qQ)
 
 **Bengali SQL query creation**
 ```
@@ -13,8 +22,6 @@ python data_generation/process_code_mixed_sql.py --input_file "data/bengali_sql/
 ```
 
 **Data Generation Training Process: SQL2NQ**
-
-![Training Process](SQL2NQ)
 
 ```
 python train_sql2nq.py --pretrained_model_name "facebook/mbart-large-50" \
