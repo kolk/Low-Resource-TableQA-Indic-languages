@@ -1,7 +1,9 @@
 # LowResourceTableQA
 **Datasets**
-  - Download [BanglaTabQA dataset](https://surfdrive.surf.nl/files/index.php/s/slYoi2DZK5ehu0u) 
+  - Download synthetic BanglaTabQA data (training+validation) at [BanglaTabQA dataset](https://surfdrive.surf.nl/files/index.php/s/slYoi2DZK5ehu0u)
+  - Download manually annotated BanglaTabQA [test](data/banglaTabQA_test_set.jsonl) data
   - Download [HindiTabQA dataset](https://surfdrive.surf.nl/files/index.php/s/t49Q7q7pwC35lFj)
+  - Download manually annotated HindiTabQA [test](data/hindiTabQA_test_set.jsonl) data
 
 **Model Checkpoints**
   - **BanglaTabQA Models**
