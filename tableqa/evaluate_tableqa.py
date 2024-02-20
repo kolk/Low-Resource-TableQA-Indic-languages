@@ -15,47 +15,54 @@ from evaluate import load as evaluate_load
 import jsonlines
 from tableqa_processor import TableQAProcessor
 
-def get_rows_columns_cells(line):
+def get_rows_columns_cells(line, language="bn"):
   line=line.lower()
-  line=line.split("<কলাম>")[1].strip()
+  if language == "bn":
+      line=line.split("<কলাম>")[1].strip()
+  elif language == "hi":
+      line=line.split("<कलाम>")[1].strip()
   lines=re.split("\s+row\s+[0-9]+\s+:\s+",line)
   rows=[" | ".join([cell.strip() for cell in row.split("|")]) for row in lines[1:]]
   cells=[cell.strip() for row in lines[1:] for cell in row.split("|")]
   columns=[" | ".join([elem.strip() for elem in elems]) for elems in list(zip(*[row.split(" | ") for row in lines]))]
   return rows,columns,cells
 
-def get_rows_columns_cells_bangla(line):
+def get_rows_columns_cells(line, language="bn"):
     try:
       line=line[line.index(" ")+1:]
-      lines=line.split("<রো ")
+      if language == "bn":
+          lines = line.split("<রো ")
+      elif language == "hi":
+          lines = line.split("<रो ")
       lines=[item[item.index(" ")+1:] if i>0 and " " in item  else item for i,item in enumerate(lines)]
       lines=[line for line in lines if line]
       rows=[" | ".join([cell.strip() for cell in row.split("|")]) for row in lines[1:]]
       cells=[cell.strip() for row in lines[1:] for cell in row.split("|")]
       columns=[" | ".join([elem.strip() for elem in elems]) for elems in list(zip(*[row.split(" | ") for row in lines]))]
     except:
-       return [], [], []
+        return [], [], []
     return rows,columns,cells
 
 
-def get_correct_total_prediction(target_str,pred_str):
-  target_rows,target_columns,target_cells=get_rows_columns_cells_bangla(target_str)
-  prediction_rows,prediction_columns,prediction_cells=get_rows_columns_cells_bangla(pred_str)
+
+def get_correct_total_prediction(target_str, pred_str, language):
+  target_rows, target_columns, target_cells = get_rows_columns_cells(target_str, language)
+  prediction_rows, prediction_columns, prediction_cells = get_rows_columns_cells(pred_str, language)
   common_rows = Counter(target_rows) & Counter(prediction_rows)
   common_rows = list(common_rows.elements())
   common_columns = Counter(target_columns) & Counter(prediction_columns)
   common_columns = list(common_columns.elements())
   common_cells = Counter(target_cells) & Counter(prediction_cells)
   common_cells = list(common_cells.elements())
-  return {"target_rows":target_rows,
-          "target_columns":target_columns,
-          "target_cells":target_cells,
-          "pred_rows":prediction_rows,
-          "pred_columns":prediction_columns,
-          "pred_cells":prediction_cells,
-          "correct_rows":common_rows,
-          "correct_columns":common_columns,
-          "correct_cells":common_cells}
+  return {"target_rows": target_rows,
+          "target_columns": target_columns,
+          "target_cells": target_cells,
+          "pred_rows": prediction_rows,
+          "pred_columns": prediction_columns,
+          "pred_cells": prediction_cells,
+          "correct_rows": common_rows,
+          "correct_columns": common_columns,
+          "correct_cells": common_cells}
 
 
 parser = argparse.ArgumentParser()
@@ -65,9 +72,10 @@ parser.add_argument("--pretrained_model_name", default=None, type=str, help="hug
 parser.add_argument("--generation_max_length", type=int, default=1024, help="max generation sequence length")
 parser.add_argument("--validation_dataset_path", type=str, default=None, help="path to validation dataset in huggingface Dataset format")
 parser.add_argument("--predictions_save_path", type=str, help="path for predictions to be saved in")
+parser.add_argument("--language", type=str, default="bn", help="language of questions and tables. Options: [bn, hi]")
+
 
 args = parser.parse_args()
-print(args)
 validation_dataset = load_from_disk(args.validation_dataset_path)
 if "mbart" in args.pretrained_model_name:
     model = MBartForConditionalGeneration.from_pretrained(args.pretrained_model_name)
@@ -135,7 +143,7 @@ with jsonlines.open(f"{args.predictions_save_path}predictions_{suffix}.jsonlines
             f_pred.write({"prediction": ans.lower().strip(), "target":tgt.strip().lower()})
             print()
 
-            statistics = get_correct_total_prediction(tgt.strip().lower(), ans.strip().lower())
+            statistics = get_correct_total_prediction(tgt.strip().lower(), ans.strip().lower(), language=args.language)
             total_columns_in_dataset += len(statistics['target_columns'])
             total_rows_in_dataset += len(statistics['target_rows'])
             total_cells_in_dataset += len(statistics['target_cells'])
@@ -149,27 +157,23 @@ with jsonlines.open(f"{args.predictions_save_path}predictions_{suffix}.jsonlines
 em_result = aggregator_em.aggregate()
 print(f"exact_match: {round(em_result['exact_match'].mid,4)}")
 
-row_accuracy = total_correct_rows / total_rows_in_dataset
-column_accuracy = total_correct_columns / total_columns_in_dataset
-cell_accuracy = total_correct_cells / total_cells_in_dataset
-print(f"row accuracy {round(row_accuracy, 4)}")
-print(f"column accuracy {round(column_accuracy, 4)}")
-print(f"cell accuracy {round(cell_accuracy, 4)}")
+cell_precision = total_correct_cells / total_predicted_cells_in_dataset
+cell_recall = total_correct_cells / total_cells_in_dataset
+print(f"cell_precision {cell_precision}")
+print(f"cell_recall {cell_recall}")
+print(f"cell F1 {(2*cell_precision*cell_recall)/(cell_precision+cell_recall)}")
 print()
+
 row_precision = total_correct_rows / total_prediced_rows_in_dataset
 row_recall = total_correct_rows / total_rows_in_dataset
 print(f"row precision {row_precision}")
 print(f"row recall {row_recall}")
 print(f"row F1 {(2*row_precision*row_recall)/(row_precision+row_recall)}")
+
 print()
 column_precision = total_correct_columns / total_predicted_columns_in_dataset
 column_recall = total_correct_columns / total_columns_in_dataset
 print(f"column_precision {column_precision}")
 print(f"column_recall {column_recall}")
 print(f"column F1 {(2*column_precision*column_recall)/(column_precision+column_recall)}")
-print()
-cell_precision = total_correct_cells / total_predicted_cells_in_dataset
-cell_recall = total_correct_cells / total_cells_in_dataset
-print(f"cell_precision {cell_precision}")
-print(f"cell_recall {cell_recall}")
-print(f"cell F1 {(2*cell_precision*cell_recall)/(cell_precision+cell_recall)}")
+
