@@ -7,14 +7,14 @@
 
 **Model Checkpoints**
   - **BanglaTabQA Models**
-     -  Download [`BnTQA-mBart`](vaishali/BnTQA-mBart) 
-     -  Download [`BnTQA-M2M`](vaishali/BnTQA-M2M) 
-     -  Download [`BnTQA-llama`](vaishali/BnTQA-Llama) 
+     -  Download [`BnTQA-mBart`](https://huggingface.co/vaishali/BnTQA-mBart) 
+     -  Download [`BnTQA-M2M`](https://huggingface.co/vaishali/BnTQA-M2M) 
+     -  Download [`BnTQA-llama`](https://huggingface.co/vaishali/BnTQA-Llama) 
  - **HindiTabQA Models**  
-    - Download [`HiTQA-mBart`](vaishali/HiTQA-mBart)
-    - Download [`HiTQA-M2M`](vaishali/HiTQA-M2M)
-   - Download [`HiTQA-BnTQA`](vaishali/HiTQA-BnTQA)
-   - Download [`HiTQA-llama`](vaishali/HiTQA-Llama)
+    - Download [`HiTQA-mBart`](https://huggingface.co/vaishali/HiTQA-mBart)
+    - Download [`HiTQA-M2M`](https://huggingface.co/vaishali/HiTQA-M2M)
+   - Download [`HiTQA-BnTQA`](https://huggingface.co/vaishali/HiTQA-BnTQA)
+   - Download [`HiTQA-llama`](https://huggingface.co/vaishali/HiTQA-Llama)
 
 **Loading BanglaTabQA Model Checkpoints**
 
