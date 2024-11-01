@@ -4,7 +4,20 @@
   - Download manually annotated BanglaTabQA [test](data/banglaTabQA_test_set.jsonl) data
   - Download [HindiTabQA dataset](https://surfdrive.surf.nl/files/index.php/s/t49Q7q7pwC35lFj)
   - Download manually annotated HindiTabQA [test](data/hindiTabQA_test_set.jsonl) data
+    
+Alternatively, load the BanglaTabQA dataset from huggingface hub:
+```
+from datasets import load_dataset
+banglatabqa = load_dataset("vaishali/banglaTabQA")
+training_set, validation_set, test_set = banglatabqa['training'], banglatabqa['validation'], banglatabqa['test']
+```
 
+Alternatively, load the HindiTabQA dataset from  huggingface hub:
+```
+from datasets import load_dataset
+hinditabqa = load_dataset("vaishali/hindiTabQA")
+training_set, validation_set, test_set = hinditabqa['training'], hinditabqa['validation'], hinditabqa['test']
+```
 **Model Checkpoints**
   - **BanglaTabQA Models**
      -  Download [`BnTQA-mBart`](https://huggingface.co/vaishali/BnTQA-mBart) 
@@ -184,4 +197,17 @@ python tableqa/evaluate_tableqa.py --pretrained_model_name "vaishali/BnTQA-mBart
                 --batch_size 2 --generation_max_length 1024 \
                 --validation_dataset_path "data/mbart-50_tokenized/mbart-50_validation.hf" \
                 --predictions_save_path "experiments/predictions/mbart-50_validation.jsonl" 
+```
+
+Please cite our work if you use our code or datasets:
+```
+@misc{pal2024tablequestionansweringlowresourced,
+      title={Table Question Answering for Low-resourced Indic Languages}, 
+      author={Vaishali Pal and Evangelos Kanoulas and Andrew Yates and Maarten de Rijke},
+      year={2024},
+      eprint={2410.03576},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2410.03576}, 
+}
 ```
