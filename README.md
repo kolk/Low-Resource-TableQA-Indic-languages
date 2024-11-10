@@ -201,13 +201,22 @@ python tableqa/evaluate_tableqa.py --pretrained_model_name "vaishali/BnTQA-mBart
 
 Please cite our work if you use our code or datasets:
 ```
-@misc{pal2024tablequestionansweringlowresourced,
-      title={Table Question Answering for Low-resourced Indic Languages}, 
-      author={Vaishali Pal and Evangelos Kanoulas and Andrew Yates and Maarten de Rijke},
-      year={2024},
-      eprint={2410.03576},
-      archivePrefix={arXiv},
-      primaryClass={cs.CL},
-      url={https://arxiv.org/abs/2410.03576}, 
+@inproceedings{pal-etal-2024-table,
+    title = "Table Question Answering for Low-resourced {I}ndic Languages",
+    author = "Pal, Vaishali  and
+      Kanoulas, Evangelos  and
+      Yates, Andrew  and
+      Rijke, Maarten",
+    editor = "Al-Onaizan, Yaser  and
+      Bansal, Mohit  and
+      Chen, Yun-Nung",
+    booktitle = "Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing",
+    month = nov,
+    year = "2024",
+    address = "Miami, Florida, USA",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2024.emnlp-main.5",
+    pages = "75--92",
+    abstract = "TableQA is the task of answering questions over tables of structured information, returning individual cells or tables as output. TableQA research has focused primarily on high-resource languages, leaving medium- and low-resource languages with little progress due to scarcity of annotated data and neural models. We address this gap by introducing a fully automatic large-scale tableQA data generation process for low-resource languages with limited budget. We incorporate our data generation method on two Indic languages, Bengali and Hindi, which have no tableQA datasets or models. TableQA models trained on our large-scale datasets outperform state-of-the-art LLMs. We further study the trained models on different aspects, including mathematical reasoning capabilities and zero-shot cross-lingual transfer. Our work is the first on low-resource tableQA focusing on scalable data generation and evaluation procedures. Our proposed data generation method can be applied to any low-resource language with a web presence. We release datasets, models, and code (https://github.com/kolk/Low-Resource-TableQA-Indic-languages).",
 }
 ```
