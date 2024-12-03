@@ -1,4 +1,8 @@
 # Table Question Answering for Low-resourced Indic Languages
+
+**Data Creation Process**
+![Data Creation Pipeline Diagram](images/data_creation.png)
+
 **Datasets**
   - Download synthetic BanglaTabQA data (training+validation) at [BanglaTabQA dataset](https://surfdrive.surf.nl/files/index.php/s/slYoi2DZK5ehu0u)
   - Download manually annotated BanglaTabQA [test](data/banglaTabQA_test_set.jsonl) data
@@ -198,6 +202,26 @@ python tableqa/evaluate_tableqa.py --pretrained_model_name "vaishali/BnTQA-mBart
                 --validation_dataset_path "data/mbart-50_tokenized/mbart-50_validation.hf" \
                 --predictions_save_path "experiments/predictions/mbart-50_validation.jsonl" 
 ```
+
+**Results**
+
+
+| | Tab | Row | Col | Cell | Tab | Row | Col | Cell | Tab | Row | Col | Cell | Tab | Row | Col | Cell
+--------| ------- | ------------| -----------          | -------            | ------------        | -------------           |-----------             | ----------              | --------------        | ---------------    |------------ | ---------------    |------------ | ---------------    |------------  |------------
+| <td colspan=8 align="center">Bengali  <td colspan=8 align="center">Hindi
+Model  <td colspan=4 align="center">Validation Set scores (%) <td colspan=4 align="center">Test Set scores (%) <td colspan=4 align="center">Validation Set scores (%) <td colspan=4 align="center">Test Set scores (%)
+En2(Bn/Hi) | 0.05 |3.06 |0.20 |3.07 |0.00 |4.73 |0.00 |4.73 |0.00 |3.37 |0.47 |3.43 |0.00 |5.03 |8.26 |5.03
+OdiaG | 0.00 |3.89 |0.00 |3.89 |0.69 |1.77 |0.69 |1.42 |− |− |− |− |− |− |− |−
+OpHathi | −| − |− |− |− |− |− |− |0.00 |0.00 |0.00 |0.00 |0.00 |0.11 |0.37 |0.74
+GPT-3.5 | 1.14 |4.81 |1.67 |5.14 |6.04 |10.06 |9.12 |9.84 |4.81 |8.94 |4.99 |9.71 |8.20 |10.29 |7.10 |9.81
+GPT-4 | 0.00 |13.57 |5.43 |14.65 |26.83 |38.67 |26.74 |36.51 |15.53 |22.60 |16.02 |22.25 |11.11 |21.49 |11.76 |20.84
+|  <td colspan=8 align="center">BnTQA  <td colspan=8 align="center">HiTQA
+-llama |60.08 |68.30 |60.47 |68.30 |9.41 |12.35 |9.85 |11.87 |14.76 |9.92 |14.13 |7.29 |13.11 |9.71 |11.11 |7.66
+-mBart |56.63 |64.10 |56.79 |64.31 |35.88 |33.16 |35.88 |33.16 |92.09 |87.97 |92.02 |87.97 |33.06 |43.35 |33.88 |43.35
+-M2M |45.31 | 58.07 |45.29 |58.04 |28.05 |34.55 |28.05 |34.55 |89.55 |85.32 |89.34 |85.15 |28.93 |33.11 |28.92 |33.10
+-BnTQA |− |− |− |− |−|− |− |− |92.40 |88.10 |92.42 |88.12 |41.32 |47.26 |41.32 |47.26
+
+
 
 Please cite our work if you use our code or datasets:
 ```
