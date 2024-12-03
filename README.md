@@ -1,4 +1,4 @@
-# LowResourceTableQA
+# Table Question Answering for Low-resourced Indic Languages
 **Datasets**
   - Download synthetic BanglaTabQA data (training+validation) at [BanglaTabQA dataset](https://surfdrive.surf.nl/files/index.php/s/slYoi2DZK5ehu0u)
   - Download manually annotated BanglaTabQA [test](data/banglaTabQA_test_set.jsonl) data
@@ -42,7 +42,7 @@ forced_bos_id = forced_bos_token_id = tokenizer.lang_code_to_id["bn_IN"]
 ```
 from transformers import M2M100ForConditionalGeneration
 model = M2M100ForConditionalGeneration.from_pretrained("vaishali/BnTQA-M2M")
-tokenizer = AutoTokenizer.from_pretrained(args.pretrained_model_name, src_lang="bn", tgt_lang="bn")
+tokenizer = AutoTokenizer.from_pretrained("vaishali/BnTQA-M2M", src_lang="bn", tgt_lang="bn")
 forced_bos_id = tokenizer.get_lang_id("bn")
 ```
 - *BnTQA-Llama*
